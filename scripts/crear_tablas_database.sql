@@ -1,8 +1,9 @@
+DROP DATABASE IF EXISTS Biblioteca;
 CREATE DATABASE IF NOT EXISTS Biblioteca;
 USE Biblioteca;
 
 CREATE TABLE IF NOT EXISTS Libros (
-    ISBN INT PRIMARY KEY,
+    ISBN VARCHAR(13) PRIMARY KEY,
     Titulo VARCHAR(255) NOT NULL,
     Editorial VARCHAR(255) NOT NULL,
     anio_publicacion YEAR NOT NULL,
@@ -14,7 +15,7 @@ CREATE TABLE IF NOT EXISTS Autor (
     Nacionalidad VARCHAR(100)
 );
 CREATE TABLE IF NOT EXISTS Libro_Autor (
-    ISBN INT,
+    ISBN VARCHAR(13),
     ID_autor INT,
     PRIMARY KEY (ISBN, ID_autor),
     FOREIGN KEY (ISBN) REFERENCES Libros(ISBN),
@@ -49,7 +50,7 @@ CREATE TABLE IF NOT EXISTS Multa (
 );
 CREATE TABLE IF NOT EXISTS Ejemplar (
     ID_ejemplar INT PRIMARY KEY AUTO_INCREMENT,
-    ISBN INT,
+    ISBN VARCHAR(13),
     Codigo_barras VARCHAR(100) UNIQUE NOT NULL,
     Estado ENUM('Disponible', 'Prestado', 'Reservado', 'Dañado') NOT NULL,
     Ubicacion VARCHAR(255) NOT NULL,
