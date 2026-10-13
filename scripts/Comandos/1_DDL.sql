@@ -5,8 +5,8 @@ CREATE TABLE IF NOT EXISTS Visiante (
     ID_visitante INT AUTO_INCREMENT PRIMARY KEY,
     Nombre VARCHAR(100) NOT NULL,
     Tiempo_visita INT NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-COMMENT = 'Tabla de prueba para registrar visitantes y su tiempo de visita a la biblioteca.';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci
+COMMENT 'Tabla de prueba para registrar visitantes y su tiempo de visita a la biblioteca.';
 
 -- ALTER 1
 ALTER TABLE Usuario
@@ -25,8 +25,7 @@ ALTER TABLE Empleado
 
 -- ALTER 4
 ALTER TABLE Empleado
-    DROP COLUMN Doc_identidad;
-    COMMENT 'Eliminación de la columna de prueba Doc_identidad de la tabla Empleado.';
+    DROP COLUMN Doc_identidad
 
 -- CREATE INDEX
 CREATE INDEX idx_titulo_libro ON Libros (Titulo);
