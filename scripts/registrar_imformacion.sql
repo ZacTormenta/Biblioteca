@@ -76,7 +76,7 @@ VALUES
 ('9789580012345', 'CB000001', 'Disponible', 'Estante A1'),
 ('9786070023456', 'CB000002', 'Prestado', 'Estante B2'),
 ('9788490034567', 'CB000003', 'Disponible', 'Estante A3'),
-('9780300045678', 'CB000004', 'En reparación', 'Área de mantenimiento'),
+('9780300045678', 'CB000004', 'Dañado', 'Área de mantenimiento'),
 ('9788800056789', 'CB000005', 'Disponible', 'Estante C1'),
 ('9782210067890', 'CB000006', 'Prestado', 'Estante B4'),
 ('9788500078901', 'CB000007', 'Disponible', 'Estante D2'),
@@ -87,16 +87,16 @@ VALUES
 --RESERVA
 INSERT INTO Reserva (ID_usuario, ID_ejemplar, ID_empleado, Fecha_reserva, Estado)
 VALUES
-(1, 2, 1, '2024-01-10', 'Pendiente'),
-(2, 4, 2, '2024-01-12', 'Confirmada'),
+(1, 2, 1, '2024-01-10', 'Activa'),
+(2, 4, 2, '2024-01-12', 'Cumplida'),
 (3, 1, 3, '2024-01-15', 'Cancelada'),
-(4, 6, 4, '2024-01-18', 'Pendiente'),
-(5, 3, 5, '2024-01-20', 'Confirmada'),
-(6, 8, 6, '2024-02-02', 'Pendiente'),
+(4, 6, 4, '2024-01-18', 'Activa'),
+(5, 3, 5, '2024-01-20', 'Cumplida'),
+(6, 8, 6, '2024-02-02', 'Activa'),
 (7, 5, 7, '2024-02-05', 'Completada'),
 (8, 10, 8, '2024-02-08', 'Cancelada'),
-(9, 7, 9, '2024-02-12', 'Confirmada'),
-(10, 9, 10, '2024-02-15', 'Pendiente');
+(9, 7, 9, '2024-02-12', 'Cumplida'),
+(10, 9, 10, '2024-02-15', 'Activa');
 
 --PRÉSTAMO
 INSERT INTO Prestamos (ID_usuario, ID_ejemplar, ID_empleado, fecha_prestamo, fecha_devolucion)
@@ -116,14 +116,14 @@ VALUES
 INSERT INTO Multa (ID_usuario, Fecha_sancion, Monto, Estado_pago)
 VALUES
 (1, '2024-01-25', 5000.00, 'Pendiente'),
-(2, '2024-01-28', 3000.00, 'Pagado'),
+(2, '2024-01-28', 3000.00, 'Pagada'),
 (3, '2024-02-02', 7500.00, 'Pendiente'),
-(4, '2024-02-05', 2000.00, 'Pagado'),
+(4, '2024-02-05', 2000.00, 'Pagada'),
 (5, '2024-02-10', 10000.00, 'Pendiente'),
-(6, '2024-02-15', 4500.00, 'Pagado'),
+(6, '2024-02-15', 4500.00, 'Pagada'),
 (7, '2024-02-20', 6000.00, 'Pendiente'),
-(8, '2024-02-25', 3500.00, 'Pagado'),
+(8, '2024-02-25', 3500.00, 'Pagada'),
 (9, '2024-03-01', 8000.00, 'Pendiente'),
-(10, '2024-03-05', 2500.00, 'Pagado');
+(10, '2024-03-05', 2500.00, 'Pagada');
 
 
