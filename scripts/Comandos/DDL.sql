@@ -9,14 +9,14 @@ CREATE TABLE IF NOT EXISTS Visiante (
 COMMENT = 'Tabla de prueba para registrar visitantes y su tiempo de visita a la biblioteca.';
 
 -- ALTER 1
-ALTER TABLE Visiante
-    ADD COLUMN Fecha_visita DATE NOT NULL
-    COMMENT 'Fecha de la visita del visitante.';
+ALTER TABLE Usuario
+    ADD COLUMN Cant_prestamos INT NULL
+    COMMENT 'Cantidad de préstamos realizados por el cliente.';
 
 -- ALTER 2
-ALTER TABLE Visiante
-    ADD COLUMN Comentarios TEXT NULL
-    COMMENT 'Comentarios adicionales sobre la visita del visitante.';
+ALTER TABLE Empleado
+    ADD COLUMN Horas_extras TIME NULL
+    COMMENT 'Cantidad de horas extras trabajadas por el empleado.';
 
 -- ALTER 3
 ALTER TABLE Empleado
