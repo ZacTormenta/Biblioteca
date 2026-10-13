@@ -2,7 +2,7 @@ USE Biblioteca;
 
 -- INSERT
 INSERT INTO Ejemplar (ISBN, Codigo_barras, Estado, Ubicacion) VALUES
-('1234567890123', 'CB000011', 'Dañado', 'Estante A2');
+('9786070023456', 'CB000011', 'Dañado', 'Estante A2');
 
 -- UPDATE
 UPDATE Ejemplar
