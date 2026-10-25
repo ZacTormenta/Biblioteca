@@ -12,31 +12,106 @@ import os
 
 from conexion import conexion, consultar, ejecutar
 
-BD = "glob_gusters"
-USUARIOS = {
-    "glob_gusters_reportes": (os.getenv("GLOB_GUSTERS_PASS_REPORTES", "Reportes#2024"), "SELECT"),
-    "glob_gusters_mostrador": (os.getenv("GLOB_GUSTERS_PASS_MOSTRADOR", "Mostrador#2024"), "SELECT, INSERT, UPDATE"),
-}
+import mysql.connector
+
+conexion = mysql.connector.connect(
+    host="localhost",
+    user="root",
+    password="",
+    database="Biblioteca"
+)
+
+cursor = conexion.cursor()
+
+# Crear a un usuario
+sql = """
+CREATE USER IF NOT EXISTS 'bibliotecario'@'localhost'
+IDENTIFIED BY '1234567890';
+"""
+
+try:
+    cursor.execute(sql)
+    conexion.commit()
+    print("Usuario creado o ya existente.")
+
+    # Otorgar permisos a un usuario
+    sql="""GRANT SELECT ON Biblioteca.Libros
+    TO 'bibliotecario'@'localhost';"""
+
+    cursor.execute(sql)
+    conexion.commit()
+
+    # Otorgar permisos a un usuario
+    sql="""GRANT SELECT ON Biblioteca.Usuario
+    TO 'bibliotecario'@'localhost';"""
+
+    cursor.execute(sql)
+    conexion.commit()
+
+    # Otorgar permisos a un usuario
+    sql="""GRANT SELECT ON Biblioteca.Multa
+    TO 'bibliotecario'@'localhost';"""
+
+    cursor.execute(sql)
+    conexion.commit()
+
+    # Otorgar permisos a un usuario
+    sql="""GRANT SELECT ON Biblioteca.Reserva
+    TO 'bibliotecario'@'localhost';"""
+
+    cursor.execute(sql)
+    conexion.commit()
+
+    # Otorgar permisos a un usuario
+    sql="""GRANT SELECT ON Biblioteca.Prestamos
+    TO 'bibliotecario'@'localhost';"""
+
+    cursor.execute(sql)
+    conexion.commit()
+
+    sql="""GRANT SELECT ON Biblioteca.Libros
+    TO 'bibliotecario'@'localhost';"""
+
+    cursor.execute(sql)
+    conexion.commit()
+
+    sql="""GRANT SELECT ON Biblioteca.Autores
+    TO 'bibliotecario'@'localhost';"""
+
+    cursor.execute(sql)
+    conexion.commit()
+
+    sql="""GRANT SELECT ON Biblioteca.Reserva
+    TO 'bibliotecario'@'localhost';"""
+
+    cursor.execute(sql)
+    conexion.commit()
+
+    sql="""GRANT SELECT ON Biblioteca.Prestamos
+    TO 'bibliotecario'@'localhost';"""
+
+    cursor.execute(sql)
+    conexion.commit()
+
+    sql="""GRANT SELECT ON Biblioteca.Usuario
+    TO 'bibliotecario'@'localhost';"""
+
+    cursor.execute(sql)
+    conexion.commit()
 
 
-def main():
-    with conexion() as con:
-        for usuario, (clave, privilegios) in USUARIOS.items():
-            cuenta = f"'{usuario}'@'localhost'"
-            # La contraseña va como parámetro; el resto son nombres fijos definidos arriba.
-            ejecutar(con, f"CREATE USER IF NOT EXISTS {cuenta} IDENTIFIED BY %s", (clave,))
-            ejecutar(con, f"GRANT {privilegios} ON `{BD}`.* TO {cuenta}")
-            print(f"Usuario {cuenta}: GRANT {privilegios}")
+    cursor.close()
+    conexion.close()
 
-        # El personal de mostrador no puede borrar historial de rentas.
-        ejecutar(con, f"REVOKE DELETE ON `{BD}`.* FROM 'glob_gusters_mostrador'@'localhost'")
-        ejecutar(con, "FLUSH PRIVILEGES")
+except mysql.connector.Error as error:
+    print("Código del error:", error.errno)
+    print("Mensaje:", error.msg)
+    conexion.rollback()
 
-        for usuario in USUARIOS:
-            print(f"\n== Privilegios de {usuario} ==")
-            for fila in consultar(con, f"SHOW GRANTS FOR '{usuario}'@'localhost'"):
-                print(next(iter(fila.values())))
+finally:
+    cursor.close()
+    conexion.close()
 
 
-if __name__ == "__main__":
-    main()
+
+
