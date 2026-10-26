@@ -5,7 +5,7 @@ Requiere haber ejecutado scripts/crear_tablas_database.sql y contar con los
 libros y ejemplares referenciados por las sentencias.
 """
 
-from conexionE import conexion, ejecutar
+from conexion import conexion, ejecutar
 
 
 SENTENCIAS = [

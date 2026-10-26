@@ -4,7 +4,7 @@ Registra un libro, un ejemplar, un autor y su relación dentro de una transacci�
 y luego demuestra una transacción descartada con ROLLBACK.
 """
 
-from conexionE import conexion
+from conexion import conexion
 
 
 def main():
