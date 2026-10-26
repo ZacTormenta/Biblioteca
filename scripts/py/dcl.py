@@ -10,12 +10,11 @@ defecto son los mismos del .sql.
 
 import os
 
-from conexion import conexion, consultar, ejecutar
+import mariadb
 
-import conexion_mariabd
-
-conexion = conexion_mariabd.connect(
-    host="localhost",
+conexion = mariadb.connect(
+    host="127.0.0.1",
+    port=3306,
     user="root",
     password="",
     database="Biblioteca"
@@ -75,7 +74,7 @@ try:
     cursor.execute(sql)
     conexion.commit()
 
-    sql="""GRANT SELECT ON Biblioteca.Autores
+    sql="""GRANT SELECT ON Biblioteca.Autor
     TO 'bibliotecario'@'localhost';"""
 
     cursor.execute(sql)
@@ -99,11 +98,7 @@ try:
     cursor.execute(sql)
     conexion.commit()
 
-
-    cursor.close()
-    conexion.close()
-
-except conexion_mariabd.Error as error:
+except mariadb.Error as error:
     print("Código del error:", error.errno)
     print("Mensaje:", error.msg)
     conexion.rollback()
@@ -111,7 +106,4 @@ except conexion_mariabd.Error as error:
 finally:
     cursor.close()
     conexion.close()
-
-
-
 
