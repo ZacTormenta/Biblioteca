@@ -25,7 +25,7 @@ CONFIG = {
     "port": int(os.getenv("GLOB_GUSTERS_PORT", "3306")),
     "user": os.getenv("GLOB_GUSTERS_USER", "root"),
     "password": os.getenv("GLOB_GUSTERS_PASSWORD", ""),
-    "database": os.getenv("GLOB_GUSTERS_DB", "glob_gusters"),
+    "database": os.getenv("GLOB_GUSTERS_DB", "Biblioteca"),
     "charset": "utf8mb4",
     "cursorclass": DictCursor,
 }

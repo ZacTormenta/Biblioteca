@@ -1,8 +1,8 @@
-"""DQL (Data Query Language) — equivalente a sql/mariadb/commands/03_DQL.sql.
+"""DQL (Data Query Language) — equivalente a scripts/Comandos/3_DQL.sql.
 
-Consultas de solo lectura: SELECT con condición, JOIN y GROUP BY.
-Sin argumentos ejecuta todas; con un nombre ejecuta una sola:
-    python py/dql.py disponibles
+Consultas de solo lectura: SELECT, JOIN y GROUP BY.
+Sin argumentos ejecuta todas; con uno o más nombres ejecuta las seleccionadas:
+    python scripts/py/dql.py disponibles prestamos_activos
 """
 
 import sys
@@ -11,40 +11,39 @@ from conexion import conexion, consultar, imprimir
 
 CONSULTAS = {
     "disponibles": (
-        "Ejemplares disponibles para alquilar",
-        """SELECT e.`Ejemplar_ID`, e.`Numero`, p.`Titulo`
-           FROM `ejemplar` e
-           INNER JOIN `pelicula` p ON p.`Pelicula_ID` = e.`Pelicula_ID`
-           WHERE e.`Ejemplar_ID` NOT IN (
-               SELECT er.`Ejemplar_ID` FROM `ejemplar_renta` er WHERE er.`Entrega` IS NULL
-           )""",
+        "Ejemplares disponibles",
+        """SELECT e.`ID_ejemplar`, e.`Codigo_barras`, l.`Titulo`, e.`Ubicacion`
+           FROM `Ejemplar` e
+           INNER JOIN `Libros` l ON l.`ISBN` = e.`ISBN`
+           WHERE e.`Estado` = 'Disponible'
+           ORDER BY l.`Titulo`""",
     ),
-    "rentas_activas": (
-        "Rentas activas (sin fecha de devolución)",
-        """SELECT c.`Nombre` AS Cliente, r.`Renta_ID`, r.`Inicia`,
-                  pe.`Titulo` AS Pelicula, ej.`Numero` AS Numero_Ejemplar
-           FROM `renta` r
-           INNER JOIN `cliente` c         ON c.`Cliente_ID` = r.`Cliente_ID`
-           INNER JOIN `ejemplar_renta` er ON er.`Renta_ID` = r.`Renta_ID`
-           INNER JOIN `ejemplar` ej       ON ej.`Ejemplar_ID` = er.`Ejemplar_ID`
-           INNER JOIN `pelicula` pe       ON pe.`Pelicula_ID` = ej.`Pelicula_ID`
-           WHERE r.`Termina` IS NULL
-           ORDER BY r.`Inicia`""",
+    "prestamos_activos": (
+        "Préstamos activos (sin fecha de devolución)",
+        """SELECT u.`Nombre` AS Usuario, p.`ID_Prestamo`, p.`fecha_prestamo`,
+                  l.`Titulo` AS Libro, e.`Codigo_barras`, em.`Nombre` AS Empleado
+           FROM `Prestamos` p
+           INNER JOIN `Usuario` u ON u.`ID_usuario` = p.`ID_usuario`
+           INNER JOIN `Ejemplar` e ON e.`ID_ejemplar` = p.`ID_ejemplar`
+           INNER JOIN `Libros` l ON l.`ISBN` = e.`ISBN`
+           INNER JOIN `Empleado` em ON em.`ID_empleado` = p.`ID_empleado`
+           WHERE p.`fecha_devolucion` IS NULL
+           ORDER BY p.`fecha_prestamo`""",
     ),
-    "peliculas_por_nacionalidad": (
-        "Películas por nacionalidad",
-        """SELECT n.`Nombre` AS Nacionalidad, COUNT(*) AS Total_Peliculas
-           FROM `pelicula` p
-           INNER JOIN `nacionalidad` n ON n.`Nacionalidad_ID` = p.`Nacionalidad_ID`
-           GROUP BY n.`Nombre`
-           ORDER BY Total_Peliculas DESC""",
+    "libros_por_nacionalidad": (
+        "Libros por nacionalidad de autor",
+        """SELECT a.`Nacionalidad`, COUNT(DISTINCT la.`ISBN`) AS Total_Libros
+           FROM `Autor` a
+           LEFT JOIN `Libro_Autor` la ON la.`ID_autor` = a.`ID_autor`
+           GROUP BY a.`Nacionalidad`
+           ORDER BY Total_Libros DESC, a.`Nacionalidad`""",
     ),
     "ejemplares_por_estado": (
-        "Ejemplares por estado de conservación",
-        """SELECT es.`Nombre` AS Estado, COUNT(*) AS Total_Ejemplares
-           FROM `ejemplar` e
-           INNER JOIN `estado` es ON es.`Estado_ID` = e.`Estado_ID`
-           GROUP BY es.`Nombre`""",
+        "Ejemplares por estado",
+        """SELECT e.`Estado`, COUNT(*) AS Total_Ejemplares
+           FROM `Ejemplar` e
+           GROUP BY e.`Estado`
+           ORDER BY Total_Ejemplares DESC""",
     ),
 }
 

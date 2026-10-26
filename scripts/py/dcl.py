@@ -12,9 +12,9 @@ import os
 
 from conexion import conexion, consultar, ejecutar
 
-import mysql.connector
+import conexion_mariabd
 
-conexion = mysql.connector.connect(
+conexion = conexion_mariabd.connect(
     host="localhost",
     user="root",
     password="",
@@ -103,7 +103,7 @@ try:
     cursor.close()
     conexion.close()
 
-except mysql.connector.Error as error:
+except conexion_mariabd.Error as error:
     print("Código del error:", error.errno)
     print("Mensaje:", error.msg)
     conexion.rollback()
